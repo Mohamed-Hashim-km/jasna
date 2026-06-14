@@ -25,11 +25,11 @@ export function Section({
           className="mb-12 text-center"
         >
           {kicker && (
-            <p className="mb-2 text-xs uppercase tracking-[0.3em] text-primary">
+            <p className="mb-2 text-xs uppercase tracking-[0.35em] text-primary font-mono font-semibold">
               {kicker}
             </p>
           )}
-          <h2 className="text-3xl font-bold tracking-tight md:text-4xl">
+          <h2 className="text-3xl font-extrabold tracking-tight md:text-5xl font-display">
             <span className="bg-gradient-to-r from-foreground to-muted-foreground bg-clip-text text-transparent">
               {title}
             </span>
