@@ -86,8 +86,8 @@ export function CustomCursor() {
         animate={{
           width: cursorType === 'pointer' ? 44 : cursorType === 'project' ? 70 : 22,
           height: cursorType === 'pointer' ? 44 : cursorType === 'project' ? 70 : 22,
-          backgroundColor: cursorType === 'project' ? 'oklch(0.55 0.22 235)' : 'rgba(0, 0, 0, 0)',
-          borderColor: cursorType === 'pointer' ? 'oklch(0.68 0.16 200)' : cursorType === 'project' ? 'oklch(0.55 0.22 235)' : 'rgba(255, 255, 255, 0.25)',
+          backgroundColor: cursorType === 'project' ? '#0ea5e9' : 'rgba(0, 0, 0, 0)',
+          borderColor: cursorType === 'pointer' ? '#3b82f6' : cursorType === 'project' ? '#0ea5e9' : 'rgba(255, 255, 255, 0.25)',
         }}
         transition={{ type: 'spring', stiffness: 250, damping: 25 }}
       >
@@ -111,7 +111,7 @@ export function CustomCursor() {
         }}
         animate={{
           scale: cursorType === 'pointer' ? 2 : cursorType === 'project' ? 0 : 1,
-          backgroundColor: cursorType === 'pointer' ? 'oklch(0.68 0.16 200)' : 'oklch(0.55 0.22 235)',
+          backgroundColor: cursorType === 'pointer' ? '#3b82f6' : '#0ea5e9',
         }}
         transition={{ type: 'spring', stiffness: 300, damping: 30 }}
       />

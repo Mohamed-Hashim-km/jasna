@@ -10,6 +10,7 @@ import "swiper/css/effect-cards";
 import "swiper/css/pagination";
 
 import { Section } from "./Section";
+import { ProximityText } from "./ProximityText";
 import { skills } from "@/data/skills";
 
 const iconMap: Record<string, typeof Code2> = {
@@ -28,9 +29,11 @@ export function Skills() {
 
   useEffect(() => {
     setMounted(true);
+
     const checkScreen = () => {
       setIsLargeScreen(window.innerWidth >= 1024);
     };
+
     checkScreen();
     window.addEventListener("resize", checkScreen);
     return () => window.removeEventListener("resize", checkScreen);
@@ -38,16 +41,13 @@ export function Skills() {
 
   const rotations = [-6, -3, -1, 1, 3, 6];
 
-  // Prevent hydration mismatch by waiting for mount
   if (!mounted) return null;
 
   return (
     <Section id="skills" title="Skills & Tools" kicker="What I Work With">
-      
-      {/* DESKTOP: Framer Motion Fan Layout */}
       {isLargeScreen ? (
-        <div className="relative flex items-center justify-center w-full max-w-[1400px] h-[380px] lg:h-[420px] mt-10 mx-auto overflow-visible px-8 z-10 hidden lg:flex">
-          <div className="flex items-center justify-center -space-x-20 xl:-space-x-24 w-full max-w-full">
+        <div className="relative mx-auto mt-10 hidden h-[380px] w-full max-w-[1400px] items-center justify-center overflow-visible px-8 lg:flex lg:h-[420px]">
+          <div className="flex w-full max-w-full items-center justify-center -space-x-20 xl:-space-x-24">
             {skills.map((group, index) => {
               const isActive = activeIndex === index;
               const isLeft = activeIndex !== null && index < activeIndex;
@@ -67,7 +67,6 @@ export function Skills() {
                   scaleValue = 1.05;
                   rotateValue = 0;
                   zIndexValue = 100;
-                  opacityValue = 1;
                 } else {
                   xOffset = isLeft ? -50 : 50;
                   yOffset = 15;
@@ -99,8 +98,7 @@ export function Skills() {
                   }}
                   onMouseEnter={() => setActiveIndex(index)}
                   onMouseLeave={() => setActiveIndex(null)}
-                  // Reduced height by using aspect-[4/5] instead of [3/4.2]
-                  className="relative w-[260px] xl:w-[280px] aspect-[4/5] border border-border/70 bg-card/70 backdrop-blur-md rounded-[2rem] p-6 flex flex-col shadow-[0_10px_30px_rgba(0,0,0,0.15)] cursor-pointer select-none transition-colors duration-300 hover:border-primary/40"
+                  className="relative flex aspect-[4/5] w-[260px] cursor-pointer select-none flex-col rounded-[2rem] border border-border/70 bg-card/70 p-6 shadow-[0_10px_30px_rgba(0,0,0,0.15)] transition-colors duration-300 hover:border-primary/40 xl:w-[280px]"
                   style={{
                     transformOrigin: "center bottom",
                     willChange: "transform, opacity",
@@ -109,29 +107,34 @@ export function Skills() {
                   {isActive && (
                     <motion.div
                       layoutId="skillCardGlow"
-                      className="absolute inset-0 rounded-[2rem] opacity-20 bg-primary filter blur-2xl pointer-events-none"
+                      className="pointer-events-none absolute inset-0 rounded-[2rem] bg-primary opacity-20 blur-2xl"
                       initial={{ opacity: 0 }}
                       animate={{ opacity: 0.2 }}
                       exit={{ opacity: 0 }}
                     />
                   )}
 
-                  <div className="relative z-10 flex flex-col h-full">
+                  <div className="relative z-10 flex h-full flex-col">
                     <div className="mb-5 inline-flex self-start rounded-xl bg-gradient-to-br from-primary to-secondary p-3 text-primary-foreground shadow-md">
                       <Icon size={22} />
                     </div>
-                    
-                    <h3 className="text-xl xl:text-2xl font-bold text-foreground font-display mb-4">
-                      {group.category}
+
+                    <h3 className="mb-4 text-xl font-display font-bold text-foreground xl:text-2xl">
+                      <ProximityText
+                        text={group.category}
+                        fromFontVariationSettings="'wght' 650"
+                        toFontVariationSettings="'wght' 900"
+                        radius={125}
+                      />
                     </h3>
-                    
-                    <div className="flex flex-wrap gap-2 overflow-y-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                      {group.items.map((s) => (
+
+                    <div className="flex flex-wrap gap-2 overflow-y-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      {group.items.map((item) => (
                         <span
-                          key={s}
-                          className="rounded-full border border-border/80 bg-background/50 px-3 py-1.5 text-[11px] xl:text-xs text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:text-foreground hover:bg-background/80"
+                          key={item}
+                          className="rounded-full border border-border/80 bg-background/50 px-3 py-1.5 text-[11px] text-muted-foreground transition-all duration-300 hover:border-primary/40 hover:bg-background/80 hover:text-foreground xl:text-xs"
                         >
-                          {s}
+                          <ProximityText text={item} radius={90} />
                         </span>
                       ))}
                     </div>
@@ -142,37 +145,40 @@ export function Skills() {
           </div>
         </div>
       ) : (
-        /* MOBILE & TABLET: Swiper.js Cards Layout */
-        <div className="w-full flex justify-center items-center mt-8 py-10 lg:hidden overflow-hidden">
+        <div className="flex w-full items-center justify-center overflow-hidden py-10 mt-8 lg:hidden">
           <Swiper
-            effect={"cards"}
+            effect="cards"
             grabCursor={true}
             modules={[EffectCards, Pagination]}
             pagination={{ clickable: true, dynamicBullets: true }}
-            className="w-[240px] xs:w-[280px] sm:w-[320px] !pb-12"
+            className="w-[240px] !pb-12 xs:w-[280px] sm:w-[320px]"
           >
             {skills.map((group) => {
               const Icon = iconMap[group.category] ?? Code2;
 
               return (
                 <SwiperSlide key={group.category} className="bg-transparent">
-                  {/* Same reduced-height aspect ratio applied here */}
-                  <div className="w-full aspect-[4/5] border border-border/70 bg-card backdrop-blur-md rounded-[2rem] p-6 flex flex-col shadow-xl">
+                  <div className="flex aspect-[4/5] w-full flex-col rounded-[2rem] border border-border/70 bg-card p-6 shadow-xl backdrop-blur-md">
                     <div className="mb-5 inline-flex self-start rounded-xl bg-gradient-to-br from-primary to-secondary p-3 text-primary-foreground shadow-md">
                       <Icon size={22} />
                     </div>
-                    
-                    <h3 className="text-xl font-bold text-foreground font-display mb-4">
-                      {group.category}
+
+                    <h3 className="mb-4 text-xl font-display font-bold text-foreground">
+                      <ProximityText
+                        text={group.category}
+                        fromFontVariationSettings="'wght' 650"
+                        toFontVariationSettings="'wght' 900"
+                        radius={125}
+                      />
                     </h3>
-                    
-                    <div className="flex flex-wrap gap-2 overflow-y-auto pb-2 [&::-webkit-scrollbar]:hidden [-ms-overflow-style:none] [scrollbar-width:none]">
-                      {group.items.map((s) => (
+
+                    <div className="flex flex-wrap gap-2 overflow-y-auto pb-2 [scrollbar-width:none] [-ms-overflow-style:none] [&::-webkit-scrollbar]:hidden">
+                      {group.items.map((item) => (
                         <span
-                          key={s}
+                          key={item}
                           className="rounded-full border border-border/80 bg-background/80 px-3 py-1.5 text-xs text-muted-foreground"
                         >
-                          {s}
+                          <ProximityText text={item} radius={90} />
                         </span>
                       ))}
                     </div>

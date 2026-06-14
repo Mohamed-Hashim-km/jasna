@@ -5,10 +5,11 @@ import { Skills } from "@/components/Skills";
 import { Projects } from "@/components/Projects";
 import { Contact } from "@/components/Contact";
 import { Footer } from "@/components/Footer";
+import { ProximityTextProvider } from "@/components/ProximityTextProvider";
 
 export default function Home() {
   return (
-    <div className="min-h-screen text-foreground antialiased">
+    <ProximityTextProvider className="min-h-screen text-foreground antialiased">
       <Navbar />
       <main>
         <Hero />
@@ -18,6 +19,6 @@ export default function Home() {
         <Contact />
       </main>
       <Footer />
-    </div>
+    </ProximityTextProvider>
   );
 }

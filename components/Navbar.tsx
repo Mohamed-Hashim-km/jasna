@@ -4,6 +4,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { useState } from "react";
 import { Menu, X } from "lucide-react";
 import { Magnetic } from "./Magnetic";
+import { ProximityText } from "./ProximityText";
 
 const links = [
   { href: "#home", label: "Home" },
@@ -26,10 +27,21 @@ export function Navbar() {
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
         <Magnetic range={40} strength={0.25}>
           <a href="#home" className="text-3xl font-bold tracking-tight inline-block py-1">
-            <span className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-display">
-              Jesna
+            <ProximityText
+              text="Jesna"
+              className="bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent font-display"
+              fromFontVariationSettings="'wght' 700"
+              toFontVariationSettings="'wght' 900"
+              radius={140}
+            />
+            <span className="text-foreground">
+              <ProximityText
+                text=".dev"
+                fromFontVariationSettings="'wght' 700"
+                toFontVariationSettings="'wght' 900"
+                radius={140}
+              />
             </span>
-            <span className="text-foreground">.dev</span>
           </a>
         </Magnetic>
 
@@ -40,7 +52,7 @@ export function Navbar() {
                 href={l.href}
                 className="relative text-sm text-muted-foreground transition-colors hover:text-foreground px-2 py-1"
               >
-                {l.label}
+                <ProximityText text={l.label} radius={100} />
               </a>
             </Magnetic>
           ))}
@@ -76,7 +88,7 @@ export function Navbar() {
                   onClick={() => setOpen(false)}
                   className="text-base text-muted-foreground hover:text-foreground block py-1.5 transition-colors"
                 >
-                  {l.label}
+                  <ProximityText text={l.label} radius={100} />
                 </a>
               </motion.div>
             ))}
@@ -86,4 +98,3 @@ export function Navbar() {
     </motion.nav>
   );
 }
-
